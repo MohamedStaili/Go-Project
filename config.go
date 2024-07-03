@@ -1,5 +1,5 @@
-package Go_Projet
+package config
 
-func config() string {
+func Config() string {
 	return "Go_Projet config"
 }
