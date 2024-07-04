@@ -15,10 +15,7 @@ func Contact(w http.ResponseWriter, r *http.Request) {
 	randerTemplate(w, "contact")
 }
 func randerTemplate(w http.ResponseWriter, tmplName string) {
-	templateCache, err := CreateTemplateCache()
-	if err != nil {
-		panic((err))
-	}
+
 	tmpl, ok := templateCache[tmplName+".page.tmpl"]
 	if !ok {
 		http.Error(w, "template not exist", http.StatusInternalServerError)
