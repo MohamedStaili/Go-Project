@@ -4,5 +4,5 @@ import "text/template"
 
 type Config struct {
 	TemplateCache map[string]*template.Template
-	port          string
+	Port          string
 }

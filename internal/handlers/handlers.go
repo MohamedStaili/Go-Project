@@ -5,24 +5,37 @@ import (
 	"net/http"
 	"path/filepath"
 	"text/template"
+
+	"github.com/MohamedStaili/Go-Project.git/config"
+	model "github.com/MohamedStaili/Go-Project.git/internal/handlers/Model"
 )
 
 func Home(w http.ResponseWriter, r *http.Request) {
-	randerTemplate(w, "home")
+	name := make(map[string]string)
+	name["Root"] = "Mohamed"
+	randerTemplate(w, "home", &model.TemplateData{StringData: name})
 }
 
 func Contact(w http.ResponseWriter, r *http.Request) {
-	randerTemplate(w, "contact")
+	age := make(map[string]int)
+	age["Root"] = 21
+	randerTemplate(w, "contact", &model.TemplateData{IntData: age})
 }
-func randerTemplate(w http.ResponseWriter, tmplName string) {
 
+var appConfig *config.Config
+
+func CreateTemplate(app *config.Config) {
+	appConfig = app
+}
+func randerTemplate(w http.ResponseWriter, tmplName string, td *model.TemplateData) {
+	templateCache := appConfig.TemplateCache
 	tmpl, ok := templateCache[tmplName+".page.tmpl"]
 	if !ok {
 		http.Error(w, "template not exist", http.StatusInternalServerError)
 		return
 	}
 	buffer := new(bytes.Buffer)
-	tmpl.Execute(buffer, nil)
+	tmpl.Execute(buffer, td)
 	buffer.WriteTo(w)
 }
 func CreateTemplateCache() (map[string]*template.Template, error) {

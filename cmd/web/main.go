@@ -24,14 +24,12 @@ func main() {
 	if err != nil {
 		panic((err))
 	}
+	handlers.CreateTemplate(&appConfig)
 	appConfig.TemplateCache = templateCache
-	appConfig.port = ":8080"
+	appConfig.Port = ":8080"
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/contact", handlers.Contact)
-	fmt.Println("Starting server on port", appConfig.port)
-	err := http.ListenAndServe(appConfig.port, nil)
-	if err != nil {
-		fmt.Println("Error starting server:", err)
-	}
+	fmt.Println("Starting server on port", appConfig.Port)
+	http.ListenAndServe(appConfig.Port, nil)
 
 }
